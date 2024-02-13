@@ -89,6 +89,10 @@ def server(host: str, port: int) -> None:
 
         # Prepare the server socket
         # * Fill in start (1)
+        # Assigns address and port for the server's socket
+        server_socket.bind((host, port))
+        # Listen at the opened socked (handle one connection at a time, 1 incoming connection allowed in queue)
+        server_socket.listen(1)
         # * Fill in end (1)
 
         threads = []
@@ -97,8 +101,12 @@ def server(host: str, port: int) -> None:
         while True:
             try:
                 # Establish connection with client.
-                
-                client_socket, address = # * Fill in start (2) # * Fill in end (2)
+
+                # * Fill in start (2)
+                # Server waits for connection from clients -
+                # creates a connection socket when connection is accepted, logging the socket and address of the client
+                client_socket, address = server_socket.accept()
+                # * Fill in end (2)
 
                 # Create a new thread to handle the client request
                 thread = threading.Thread(target=client_handler, args=(
@@ -122,8 +130,10 @@ def client_handler(client_socket: socket.socket, client_address: tuple[str, int]
     with client_socket:  # closes the socket when the block is exited
         print(f"Conection established with {client_addr}")
         while True:
-            
-            data = # * Fill in start (3) # * Fill in end (3)
+            # * Fill in start (3)
+            # Read data from connected socket, allowing api.BUFFER_SIZE size of data
+            data = client_socket.recv(api.BUFFER_SIZE)
+            # * Fill in end (3)
             if not data:
                 break
             try:
@@ -143,6 +153,9 @@ def client_handler(client_socket: socket.socket, client_address: tuple[str, int]
                     f"{client_prefix} Sending response of length {len(response)} bytes")
 
                 # * Fill in start (4)
+                # Send response bytes through connected socket
+                # TODO encode?
+                client_socket.send(response)
                 # * Fill in end (4)
 
             except Exception as e:
