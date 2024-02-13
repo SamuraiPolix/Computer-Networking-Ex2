@@ -94,12 +94,13 @@ if __name__ == "__main__":
     args = arg_parser.parse_args()
 
     host = args.host
-    port = args.port
+    # port = args.port
+    port = 9998
 
     # Example expressions: (uncomment one of them for your needs)
     # (1) '(sin(max(2, 3 * 4, 5, 6 * ((7 * 8) / 9), 10 / 11)) / 12) * 13' = -0.38748277824137206
-    expr = mul_b(div_b(sin_f(max_f(2, mul_b(3, 4), 5, mul_b(
-        6, div_b(mul_b(7, 8), 9)), div_b(10, 11))), 12), 13)  # (1)
+    # expr = mul_b(div_b(sin_f(max_f(2, mul_b(3, 4), 5, mul_b(
+    #     6, div_b(mul_b(7, 8), 9)), div_b(10, 11))), 12), 13)  # (1)
 
     # (2) '(max(2, 3) + 3)' = 6
     # expr = add_b(max_f(2, 3), 3) # (2)
@@ -115,6 +116,101 @@ if __name__ == "__main__":
 
     # (6) 'max(2, (3 * 4), log(e), (6 * 7), (9 / 8))' = 42
     # expr = max_f(2, mul_b(3, 4), log_f(e_c), mul_b(6, 7), div_b(9, 8)) # (6)
+
+    # ADDED BY ME
+    # (7) Test a large expressions (exceeding 1024) - this should work because we allow 8180 bytes (api.BUFFER_SIZE)
+    expr = add_b(
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)))
+
+    # (8) Test a very large expression (exceeding 8180) - this shouldn't work - check good!
+    '''
+    expr = add_b(
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5)),
+        pow_b(sub_b(20, 5), 3),
+        mul_b(div_b(1200, 4), max_f(7, 8, 2, 9, 10)),
+        neg_u(pow_b(add_b(15, 7), 2)),
+        mul_b(sub_b(100, 2), log_f(pow_b(2.71828, 3))),
+        div_b(sub_b(mul_b(30, 5), 12), pow_b(144, 0.5))
+    )
+    '''
 
     # Change the following values according to your needs:
 
