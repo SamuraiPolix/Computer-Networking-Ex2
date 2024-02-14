@@ -100,7 +100,8 @@ def proxy(proxy_address: tuple[str, int], server_adress: tuple[str, int]) -> Non
                 # Establish connection with client.
 
                 # * Fill in start (2)
-                # Proxy waits for connection from clients - creates a connection socket when connection is accepted, logging the socket and address of the client
+                # Proxy waits for connection from clients -
+                # creates a connection socket when connection is accepted, logging the socket and address of the client
                 client_socket, client_address = proxy_socket.accept()
                 # * Fill in end (2)
 
@@ -165,7 +166,7 @@ def client_handler(client_socket: socket.socket, client_address: tuple[str, int]
 
                 # Send the response back to the client
                 # * Fill in start (4)
-                # 'Response' now has the value from cache or the new value (depends on the cache and client's needs)
+                # 'Response' now has the value from cache or the new value (depends on the cache and client's request)
                 # Send response bytes through connected socket
                 # TODO encode?
                 client_socket.send(response)
@@ -176,6 +177,8 @@ def client_handler(client_socket: socket.socket, client_address: tuple[str, int]
                 client_socket.sendall(api.CalculatorHeader.from_error(api.CalculatorServerError(
                     "Internal proxy error", e), api.CalculatorHeader.STATUS_SERVER_ERROR, False, 0).pack())
             print(f"{client_prefix} Connection closed")
+
+
 
 
 if __name__ == '__main__':

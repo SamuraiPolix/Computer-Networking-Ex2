@@ -98,11 +98,11 @@ if __name__ == "__main__":
 
     # Example expressions: (uncomment one of them for your needs)
     # (1) '(sin(max(2, 3 * 4, 5, 6 * ((7 * 8) / 9), 10 / 11)) / 12) * 13' = -0.38748277824137206
-    expr = mul_b(div_b(sin_f(max_f(2, mul_b(3, 4), 5, mul_b(
-        6, div_b(mul_b(7, 8), 9)), div_b(10, 11))), 12), 13)  # (1)
+    # expr = mul_b(div_b(sin_f(max_f(2, mul_b(3, 4), 5, mul_b(
+    #     6, div_b(mul_b(7, 8), 9)), div_b(10, 11))), 12), 13)  # (1)
 
     # (2) '(max(2, 3) + 3)' = 6
-    # expr = add_b(max_f(2, 3), 3) # (2)
+    expr = add_b(max_f(2, 3), 3) # (2)
 
     # (3) '3 + ((4 * 2) / ((1 - 5) ** (2 ** 3)))' = 3.0001220703125
     # expr = add_b(3, div_b(mul_b(4, 2), pow_b(sub_b(1, 5), pow_b(2, 3)))) # (3)
